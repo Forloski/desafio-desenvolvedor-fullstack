@@ -20,14 +20,24 @@ export default class CreateUser1607031646695 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'password',
+            name: 'phone',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'email',
             type: 'varchar',
             isNullable: false,
-            isUnique: true,
+          },
+          {
+            name: 'investmentValue',
+            type: 'integer',
+            isNullable: false,
+          },
+          {
+            name: 'investmentTimeInMonths',
+            type: 'integer',
+            isNullable: false,
           },
           {
             name: 'created_at',
