@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { Container } from './styles';
-
 const Calculator: React.FC = () => {
-  return <Container />;
+  return <></>;
 };
 
 export default Calculator;

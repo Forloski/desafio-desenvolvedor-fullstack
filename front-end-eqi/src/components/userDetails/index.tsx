@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Calculator: React.FC = () => {
+const UserDetails: React.FC = () => {
   return <Container />;
 };
 
-export default Calculator;
+export default UserDetails;
