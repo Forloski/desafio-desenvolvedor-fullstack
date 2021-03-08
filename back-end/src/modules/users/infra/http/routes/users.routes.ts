@@ -14,11 +14,9 @@ usersRouter.post(
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       phone: Joi.string().required(),
-      investmentValue: Joi.number().required(),
-      investmentTimeInMonths: Joi.number().required(),
     },
   }),
-  userController.create,
+  userController.save,
 );
 
 export default usersRouter;

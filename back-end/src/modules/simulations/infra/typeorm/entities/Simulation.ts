@@ -2,24 +2,27 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('users')
-class User {
+@Entity('simulations')
+class Simulations {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  name: string;
+  userId: string;
 
   @Column()
-  email: string;
+  investmentTime: string;
 
   @Column()
-  phone: string;
+  initialDeposit: string;
+
+  @Column()
+  monthlyDeposit: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -28,4 +31,4 @@ class User {
   updated_at: Date;
 }
 
-export default User;
+export default Simulations;

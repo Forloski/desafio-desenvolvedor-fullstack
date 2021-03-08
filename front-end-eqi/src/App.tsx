@@ -1,15 +1,18 @@
 import React from 'react';
 
-import Home from './pages/home';
+// import Home from './pages/home';
+import Calculator from './pages/calculator';
+
+import AppProvider from './hooks';
 
 import GlobalStyle from './styles/global';
 
 const App: React.FC = () => {
   return (
-    <>
-      <Home />
+    <AppProvider>
+      <Calculator />
       <GlobalStyle />
-    </>
+    </AppProvider>
   );
 };
 

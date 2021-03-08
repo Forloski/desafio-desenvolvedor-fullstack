@@ -1,11 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateUser1607031646695 implements MigrationInterface {
+export default class CreateSimulation1615208605884
+  implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'simulations',
         columns: [
           {
             name: 'id',
@@ -15,19 +16,23 @@ export default class CreateUser1607031646695 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'name',
+            name: 'userId',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'phone',
+            name: 'investmentTime',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'email',
+            name: 'initialDeposit',
             type: 'varchar',
-            isUnique: true,
+            isNullable: false,
+          },
+          {
+            name: 'monthlyDeposit',
+            type: 'varchar',
             isNullable: false,
           },
           {
@@ -46,6 +51,6 @@ export default class CreateUser1607031646695 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('simulations');
   }
 }

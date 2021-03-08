@@ -1,35 +1,30 @@
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import { injectable, inject } from 'tsyringe';
 
-// import AppError from '@shared/errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 import User from '../infra/typeorm/entities/User';
 
 @injectable()
-class CreateUserService {
+class SaveUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({
-    name,
-    email,
-    phone,
-    investmentValue,
-    investmentTimeInMonths,
-  }: ICreateUserDTO): Promise<User> {
-    const user = await this.usersRepository.create({
+  public async execute({ name, email, phone }: ICreateUserDTO): Promise<User> {
+    const user = await this.usersRepository.findByEmail(email);
+
+    if (user) {
+      return this.usersRepository.save({ ...user, name, phone });
+    }
+
+    return this.usersRepository.create({
       name,
       email,
       phone,
-      investmentValue,
-      investmentTimeInMonths,
     });
-
-    return user;
   }
 }
 
-export default CreateUserService;
+export default SaveUserService;
