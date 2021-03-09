@@ -1,32 +1,32 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StylesProvider } from '@material-ui/core/styles';
 import DefaultArticle from './defaultArticle';
+import { useUser } from '../../../../hooks/UserContext';
+import ISimulation from '../../../../interfaces/ISimulation';
+
 import { StyledContainer, StyledTextContainer } from './styles';
 
-const FilteringButtons: React.FC = () => {
+const Articles: React.FC = () => {
+  const { userState, readSimulations } = useUser();
+  useCallback(() => {
+    readSimulations(userState.id);
+  });
+
   return (
     <StylesProvider injectFirst>
       <StyledContainer>
-        <StyledTextContainer>
-          <h4>Title of Something</h4>
-          <p>text explaining how something is something of somethings</p>
-        </StyledTextContainer>
-        <DefaultArticle>
-          <h4>Title of Something</h4>
-        </DefaultArticle>
-
-        <DefaultArticle>
-          <h4>Title of Something</h4>
-        </DefaultArticle>
-        <DefaultArticle>
-          <h4>Title of Something</h4>
-        </DefaultArticle>
-        <DefaultArticle>
-          <h4>Title of Something</h4>
-        </DefaultArticle>
+        {userState.simulations
+          ? userState.simulations.map(simulation => (
+              <DefaultArticle
+                initialDeposit={simulation.initialDeposit}
+                investmentTime={simulation.investmentTime}
+                monthlyDeposit={simulation.monthlyDeposit}
+              />
+            ))
+          : null}
       </StyledContainer>
     </StylesProvider>
   );
 };
 
-export default FilteringButtons;
+export default Articles;

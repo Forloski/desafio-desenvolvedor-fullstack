@@ -1,24 +1,72 @@
 import React from 'react';
-
 import { StylesProvider } from '@material-ui/core/styles';
-import { StyledContainer, StyledText } from './styles';
+import ISimulation from '../../../../../interfaces/ISimulation';
 
-const DefaultArticles: React.FC = ({ children }) => {
+import compoundInterestFormula from '../../../../../utils/compoundInterestFormula';
+
+import { StyledContainer } from './styles';
+
+const DefaultArticles: React.FC<ISimulation> = ({
+  investmentTime,
+  initialDeposit,
+  monthlyDeposit,
+}: ISimulation) => {
+  const investimento =
+    Number(initialDeposit) + Number(monthlyDeposit) * Number(investmentTime);
+
+  const poupanca = compoundInterestFormula(
+    initialDeposit,
+    monthlyDeposit,
+    '0.0012',
+    investmentTime,
+  );
+
+  const cdbPos = compoundInterestFormula(
+    initialDeposit,
+    monthlyDeposit,
+    '0.00158',
+    investmentTime,
+  );
+
   return (
     <StylesProvider injectFirst>
       <StyledContainer>
-        <StyledText>
-          {children}
+        <div>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum
+            Investimento:{' '}
+            {investimento.toLocaleString('pt-br', {
+              minimumFractionDigits: 2,
+            })}
           </p>
-        </StyledText>
+        </div>
+        <div>
+          <p>
+            Total na Poupança:{' '}
+            {poupanca.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+        <div>
+          <p>
+            Rendimento na Poupança:{' '}
+            {(poupanca - investimento).toLocaleString('pt-br', {
+              minimumFractionDigits: 2,
+            })}
+          </p>
+        </div>
+        <div>
+          <p>
+            Total no CDB Pós:{' '}
+            {cdbPos.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+        <div>
+          <p>
+            Rendimento no CDB Pós:{' '}
+            {(cdbPos - investimento).toLocaleString('pt-br', {
+              minimumFractionDigits: 2,
+            })}
+          </p>
+        </div>
       </StyledContainer>
     </StylesProvider>
   );

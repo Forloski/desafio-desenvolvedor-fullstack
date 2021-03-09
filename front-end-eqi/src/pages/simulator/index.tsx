@@ -7,7 +7,7 @@ import Header from './ui/header';
 import Hero from './ui/calculator';
 import Articles from './ui/articles';
 
-const Calculator: React.FC = () => {
+const Simulator: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -17,4 +17,4 @@ const Calculator: React.FC = () => {
   );
 };
 
-export default Calculator;
+export default Simulator;

@@ -4,27 +4,34 @@ import IUser from '../interfaces/IUser';
 
 interface IUserContextData {
   userState: IUser;
-  storeUser(signInCredentials: SignInCredential): Promise<IUser>;
+  storeUser(signInCredentials: ISignInCredential): Promise<IUser>;
+  readSimulations(id: string): Promise<IUser>;
 }
 
-interface SignInCredential {
+interface ISignInCredential {
   name: string;
   email: string;
   phone: string;
 }
 
-const defaultUserState: IUser = {
-  id: '',
-  name: '',
-  email: '',
-  phone: '',
-  simulations: [],
-};
+interface ISimulations {
+  investmentTime: string;
+  initialDeposit: string;
+  monthlyDeposit: string;
+}
 
 const UserContext = React.createContext({} as IUserContextData);
 
 export const UserProvider: React.FC = ({ children }) => {
-  const [userState, setUserState] = useState<IUser>(defaultUserState);
+  const [userState, setUserState] = useState<IUser>(() => {
+    const user = localStorage.getItem('@SimuladorCDB:user');
+
+    if (user) {
+      return JSON.parse(user);
+    }
+
+    return {} as IUser;
+  });
 
   // set userState for Context use and store user on database
   const storeUser = useCallback(async ({ name, email, phone }) => {
@@ -39,11 +46,27 @@ export const UserProvider: React.FC = ({ children }) => {
     return user;
   }, []);
 
+  const readSimulations = useCallback(async (id: string) => {
+    console.log('hi');
+    const response = await api.get<ISimulations[]>(`simulations/${id}`);
+
+    const simulations = response.data;
+
+    const user = { ...userState, simulations };
+
+    setUserState(user);
+
+    localStorage.setItem('@SimuladorCDB:user', JSON.stringify(user));
+
+    return user;
+  }, []);
+
   return (
     <UserContext.Provider
       value={{
         userState,
         storeUser,
+        readSimulations,
       }}
     >
       {children}

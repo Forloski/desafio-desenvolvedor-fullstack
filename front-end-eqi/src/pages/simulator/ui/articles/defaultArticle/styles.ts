@@ -7,12 +7,3 @@ export const StyledContainer = styled(Paper)`
   height: fill;
   position: relative;
 `;
-
-export const StyledText = styled.div`
-  h4 {
-    color: #de8e85;
-  }
-
-  p {
-  }
-`;

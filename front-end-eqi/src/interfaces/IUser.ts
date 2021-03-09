@@ -1,7 +1,7 @@
 import ISimulation from './ISimulation';
 
 export default interface IUser {
-  id?: string;
+  id: string;
   name: string;
   email: string;
   phone: string;
