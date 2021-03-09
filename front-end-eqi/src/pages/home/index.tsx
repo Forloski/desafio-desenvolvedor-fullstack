@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { ImageGrid, FormGrid } from './styles';
 
+import { useUser } from '../../hooks/UserContext';
+
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
@@ -39,10 +41,12 @@ const useStyles = makeStyles(theme => ({
 const Home: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
+  const { storeUser } = useUser();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmitData = (data: any) => {
     // eslint-disable-next-line no-alert
+    storeUser(data);
     alert(JSON.stringify(data));
   };
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-// import Home from './pages/home';
-import Calculator from './pages/calculator';
+import Routes from './routes';
 
 import AppProvider from './hooks';
 
@@ -9,10 +9,13 @@ import GlobalStyle from './styles/global';
 
 const App: React.FC = () => {
   return (
-    <AppProvider>
-      <Calculator />
+    <Router>
+      <AppProvider>
+        <Routes />
+      </AppProvider>
+
       <GlobalStyle />
-    </AppProvider>
+    </Router>
   );
 };
 

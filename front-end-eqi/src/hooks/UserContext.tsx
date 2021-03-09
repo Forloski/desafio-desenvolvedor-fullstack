@@ -4,9 +4,13 @@ import IUser from '../interfaces/IUser';
 
 interface IUserContextData {
   userState: IUser;
-  storeUser(user: IUser): Promise<IUser>;
-  updateUser(user: IUser): Promise<IUser>;
-  readUser(id: string): void;
+  storeUser(signInCredentials: SignInCredential): Promise<IUser>;
+}
+
+interface SignInCredential {
+  name: string;
+  email: string;
+  phone: string;
 }
 
 const defaultUserState: IUser = {
@@ -23,24 +27,16 @@ export const UserProvider: React.FC = ({ children }) => {
   const [userState, setUserState] = useState<IUser>(defaultUserState);
 
   // set userState for Context use and store user on database
-  const storeUser = useCallback(async user => {
-    setUserState(user);
-    const response = await api.post<IUser>('users', user);
-    return response.data;
-  }, []);
+  const storeUser = useCallback(async ({ name, email, phone }) => {
+    const response = await api.post<IUser>('users', { name, email, phone });
 
-  // set userState for Context use and update user on database
-  const updateUser = useCallback(async user => {
-    setUserState(user);
-    const response = await api.put<IUser>(`user/${user.id}`, user);
-    return response.data;
-  }, []);
+    const user = response.data;
 
-  // read user from our back-end database
-  const readUser = useCallback(async user => {
-    const response = await api.get<IUser>(`user/${user.id}`, user);
-    setUserState(response.data);
-    return response.data;
+    setUserState(user);
+
+    localStorage.setItem('@SimuladorCDB:user', JSON.stringify(user));
+
+    return user;
   }, []);
 
   return (
@@ -48,8 +44,6 @@ export const UserProvider: React.FC = ({ children }) => {
       value={{
         userState,
         storeUser,
-        updateUser,
-        readUser,
       }}
     >
       {children}
