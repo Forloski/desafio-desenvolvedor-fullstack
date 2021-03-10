@@ -4,7 +4,7 @@ import ISimulation from '../../../../../interfaces/ISimulation';
 
 import compoundInterestFormula from '../../../../../utils/compoundInterestFormula';
 
-import { StyledContainer } from './styles';
+import { StyledContainer, StyledResultContainer } from './styles';
 
 const DefaultArticles: React.FC<ISimulation> = ({
   investmentTime,
@@ -31,42 +31,77 @@ const DefaultArticles: React.FC<ISimulation> = ({
   return (
     <StylesProvider injectFirst>
       <StyledContainer>
-        <div>
-          <p>
-            Investimento:{' '}
-            {investimento.toLocaleString('pt-br', {
-              minimumFractionDigits: 2,
-            })}
-          </p>
-        </div>
-        <div>
-          <p>
-            Total na Poupança:{' '}
-            {poupanca.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-        <div>
-          <p>
-            Rendimento na Poupança:{' '}
-            {(poupanca - investimento).toLocaleString('pt-br', {
-              minimumFractionDigits: 2,
-            })}
-          </p>
-        </div>
-        <div>
-          <p>
-            Total no CDB Pós:{' '}
-            {cdbPos.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-        <div>
-          <p>
-            Rendimento no CDB Pós:{' '}
-            {(cdbPos - investimento).toLocaleString('pt-br', {
-              minimumFractionDigits: 2,
-            })}
-          </p>
-        </div>
+        <StyledResultContainer>
+          <div>
+            <p>
+              <b>Investimento Inicial:</b>{' '}
+              {Number(initialDeposit).toLocaleString('pt-br', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{' '}
+              R$
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Depósito Mensal</b>:{' '}
+              {Number(monthlyDeposit).toLocaleString('pt-br', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{' '}
+              R$
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Meses Investidos:</b>{' '}
+              {Number(investmentTime).toLocaleString('pt-br', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Investimento Total:</b>{' '}
+              {investimento.toLocaleString('pt-br', {
+                maximumFractionDigits: 2,
+              })}{' '}
+              R$
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Total na Poupança:</b>{' '}
+              {poupanca.toLocaleString('pt-br', { maximumFractionDigits: 2 })}{' '}
+              R$
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Rendimento na Poupança:</b>{' '}
+              {(poupanca - investimento).toLocaleString('pt-br', {
+                maximumFractionDigits: 2,
+              })}{' '}
+              R$
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Total no CDB Pós:</b>{' '}
+              {cdbPos.toLocaleString('pt-br', { maximumFractionDigits: 2 })} R$
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Rendimento no CDB Pós:</b>{' '}
+              {(cdbPos - investimento).toLocaleString('pt-br', {
+                maximumFractionDigits: 2,
+              })}{' '}
+              R$
+            </p>
+          </div>
+        </StyledResultContainer>
       </StyledContainer>
     </StylesProvider>
   );

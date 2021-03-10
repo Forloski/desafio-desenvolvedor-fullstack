@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,7 @@ import {
   StyledGridElement,
   StyledResultContainer,
 } from './styles';
+import { useUser } from '../../../../hooks/UserContext';
 import compoundInterestFormula from '../../../../utils/compoundInterestFormula';
 
 const useStyles = makeStyles(theme => ({
@@ -41,6 +42,7 @@ const useStyles = makeStyles(theme => ({
 const Hero: React.FC = () => {
   const { register, handleSubmit, watch } = useForm();
   const classes = useStyles();
+  const { storeSimulation } = useUser();
 
   const [poupanca, setPoupanca] = useState(0);
   const [cdbPos, setCdbPos] = useState(0);
@@ -80,10 +82,12 @@ const Hero: React.FC = () => {
   }, [watchInitialDeposit, watchMonthlyDeposit, watchInvestmentTime]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmitData = (data: any) => {
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(data));
-  };
+  const handleSubmitData = useCallback(
+    (data: any) => {
+      storeSimulation(data);
+    },
+    [storeSimulation],
+  );
 
   return (
     <StyledContainer>
@@ -152,7 +156,7 @@ const Hero: React.FC = () => {
         <StyledResultContainer>
           <div>
             <p>
-              Investimento:{' '}
+              <b>Investimento:</b>{' '}
               {investimento.toLocaleString('pt-br', {
                 minimumFractionDigits: 2,
               })}
@@ -160,13 +164,13 @@ const Hero: React.FC = () => {
           </div>
           <div>
             <p>
-              Total na Poupança:{' '}
+              <b>Total na Poupança:</b>{' '}
               {poupanca.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
             </p>
           </div>
           <div>
             <p>
-              Rendimento na Poupança:{' '}
+              <b>Rendimento na Poupança:</b>{' '}
               {(poupanca - investimento).toLocaleString('pt-br', {
                 minimumFractionDigits: 2,
               })}
@@ -174,13 +178,13 @@ const Hero: React.FC = () => {
           </div>
           <div>
             <p>
-              Total no CDB Pós:{' '}
+              <b>Total no CDB Pós:</b>{' '}
               {cdbPos.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
             </p>
           </div>
           <div>
             <p>
-              Rendimento no CDB Pós:{' '}
+              <b>Rendimento no CDB Pós:</b>{' '}
               {(cdbPos - investimento).toLocaleString('pt-br', {
                 minimumFractionDigits: 2,
               })}

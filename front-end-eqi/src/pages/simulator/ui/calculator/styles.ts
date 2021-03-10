@@ -10,6 +10,8 @@ export const StyledContainer = styled.div`
   grid-template-rows: auto;
   justify-content: center;
   column-gap: 150px;
+
+  margin-top: 2vh;
 `;
 
 export const StyledHeroModel = styled.img`
@@ -45,7 +47,6 @@ export const StyledGridElement = styled.div`
 `;
 
 export const StyledResultContainer = styled.div`
-  /* Grid styles */
   height: 100%;
   display: grid;
   align-items: center;
@@ -53,7 +54,13 @@ export const StyledResultContainer = styled.div`
   grid-template-rows: auto;
   justify-content: center;
   column-gap: 150px;
+  row-gap: 1vh;
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: Roboto, sans-serif;
 `;

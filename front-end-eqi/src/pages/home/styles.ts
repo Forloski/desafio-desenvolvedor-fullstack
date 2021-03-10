@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Paper, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import porcoImg from '../../assets/porco.jpg';
 

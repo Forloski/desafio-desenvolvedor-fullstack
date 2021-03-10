@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import Slide from '@material-ui/core/Slide';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -23,13 +25,27 @@ function HideOnScroll(props: Props) {
 }
 
 const Header: React.FC = props => {
+  const history = useHistory();
+
+  const signOut = useCallback(() => {
+    localStorage.removeItem('@SimuladorCDB:user');
+    history.push('/');
+  }, [history]);
+
   return (
     <>
       <StylesProvider injectFirst>
         <HideOnScroll {...props}>
           <StyledAppBar position="fixed">
             <Typography variant="h6">
-              <StyledToolbar />
+              <StyledToolbar>
+                <p>Simulador de Investimentos</p>
+                <button type="button" onClick={signOut}>
+                  <div>
+                    <ExitToAppIcon />
+                  </div>
+                </button>
+              </StyledToolbar>
             </Typography>
           </StyledAppBar>
         </HideOnScroll>

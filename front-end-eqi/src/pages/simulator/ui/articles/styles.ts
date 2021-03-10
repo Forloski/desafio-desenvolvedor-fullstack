@@ -21,18 +21,13 @@ export const StyledContainer = styled.div`
   height: 100%;
 `;
 
-export const StyledButtonContainer = styled.div`
-  display: grid;
-  justify-content: right;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-`;
-
 export const StyledTextContainer = styled.div`
-  grid-column: span 2;
-  @media only screen and (max-width: 559px) {
-    grid-column: span 1;
-  }
-  h4 {
-    color: #de8e85;
-  }
+  color: #143c8d;
+  text-align: center;
+  font-size: 2em;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: 1em;
+  margin-bottom: 1em;
 `;

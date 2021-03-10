@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { ImageGrid, FormGrid } from './styles';
 
 import { useUser } from '../../hooks/UserContext';
@@ -42,13 +43,16 @@ const Home: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const { storeUser } = useUser();
+  const history = useHistory();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmitData = (data: any) => {
-    // eslint-disable-next-line no-alert
-    storeUser(data);
-    alert(JSON.stringify(data));
-  };
+  const handleSubmitData = useCallback(
+    async (data: any) => {
+      await storeUser(data);
+      history.push('/simulator');
+    },
+    [history, storeUser],
+  );
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -106,7 +110,7 @@ const Home: React.FC = () => {
               color="primary"
               className={classes.submit}
             >
-              Cadastrar
+              Entrar
             </Button>
           </form>
         </div>

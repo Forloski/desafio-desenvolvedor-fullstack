@@ -5,7 +5,8 @@ import IUser from '../interfaces/IUser';
 interface IUserContextData {
   userState: IUser;
   storeUser(signInCredentials: ISignInCredential): Promise<IUser>;
-  readSimulations(id: string): Promise<IUser>;
+  readSimulations(): Promise<IUser>;
+  storeSimulation(simulation: IStoreSimulation): Promise<IUser>;
 }
 
 interface ISignInCredential {
@@ -18,6 +19,10 @@ interface ISimulations {
   investmentTime: string;
   initialDeposit: string;
   monthlyDeposit: string;
+}
+
+interface IStoreSimulation extends ISimulations {
+  userId: string;
 }
 
 const UserContext = React.createContext({} as IUserContextData);
@@ -39,20 +44,25 @@ export const UserProvider: React.FC = ({ children }) => {
 
     const user = response.data;
 
-    setUserState(user);
-
     localStorage.setItem('@SimuladorCDB:user', JSON.stringify(user));
+
+    setUserState(user);
 
     return user;
   }, []);
 
-  const readSimulations = useCallback(async (id: string) => {
-    console.log('hi');
-    const response = await api.get<ISimulations[]>(`simulations/${id}`);
+  const readSimulations = useCallback(async () => {
+    const localUser = JSON.parse(
+      localStorage.getItem('@SimuladorCDB:user') || '',
+    );
+
+    const response = await api.get<ISimulations[]>(
+      `simulations/${localUser.id}`,
+    );
 
     const simulations = response.data;
 
-    const user = { ...userState, simulations };
+    const user = { ...localUser, simulations };
 
     setUserState(user);
 
@@ -60,6 +70,22 @@ export const UserProvider: React.FC = ({ children }) => {
 
     return user;
   }, []);
+
+  const storeSimulation = useCallback(
+    async (simulation: ISimulations) => {
+      const simulationRequest = {
+        ...simulation,
+        userId: userState.id,
+      } as IStoreSimulation;
+
+      await api.post<IStoreSimulation>(`simulations`, simulationRequest);
+
+      const user = readSimulations();
+
+      return user;
+    },
+    [readSimulations, userState.id],
+  );
 
   return (
     <UserContext.Provider
@@ -67,6 +93,7 @@ export const UserProvider: React.FC = ({ children }) => {
         userState,
         storeUser,
         readSimulations,
+        storeSimulation,
       }}
     >
       {children}

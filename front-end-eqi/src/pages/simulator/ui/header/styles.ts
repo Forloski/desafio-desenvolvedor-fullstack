@@ -8,26 +8,36 @@ export const StyledAppBar = styled(AppBar)``;
 export const StyledToolbar = styled(Toolbar)`
   display: grid;
   min-height: 62px;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(2, auto);
   grid-auto-rows: auto;
   grid-gap: 1vh;
-  align-items: center;
-  text-align: center;
   padding: 0;
-`;
 
-export const StyledLogo = styled.a`
-  width: 174px;
-  height: 36px;
-  display: block;
-  position: relative;
-  text-indent: -9999px;
-  margin: 0;
-  align-self: center;
-  justify-self: center;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  grid-column: 2;
+  p {
+    align-self: left;
+    margin-left: 10vw;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 1.3em;
+  }
+
+  button {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    align-self: right;
+    margin-right: 7vw;
+
+    svg {
+      color: white;
+      width: 30px;
+      height: 30px;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
 `;
 
 export const ToolbarOffset = styled.div`
