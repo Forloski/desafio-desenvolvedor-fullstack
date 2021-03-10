@@ -1,63 +1,123 @@
-# Desafio Desenvolvedor Full Stack Júnior
+﻿# Back-End API Teste EQI
+> API que cria/atualiza usuários e salva simulações na Database.
 
-Bem vindo ao desafio para Desenvolvedor Full Stack Júnior.
+API desenvolvida em NodeJS (Express), utilizando TypeScript.
 
-## Quem somos
+Foi desenvolvida como parte do teste requisitado pela EQI.
 
-Somos um dos maiores escritórios de Assessoria de Investimentos com presença em 11 cidades no Brasil e 11 anos de história no Mercado Financeiro.
 
-Você fará parte da equipe de Engenharia de Software, tendo a oportunidade de construir soluções e ferramentas financeiras que simplifiquem a experiência dos nossos clientes no mercado de investimentos.
+## Configuração para Desenvolvimento
+Instalar as dependências com:
+```sh
+npm install 
+```
+Criar uma Database Postgres (de maneira que preferir). 
+Exemplo meu usando Docker:
+```sh
+docker run --name eqi_test -e POSTGRES_PASSWORD=docker -p 5432:5432 
+-d postgres
+```
+Rodar as migrations da database:
+```sh
+npm run typeorm -- migration:run
+```
 
-Somos uma empresa em crescimento, então aqui o aprendizado é constante.
+Para inicializar a API:
+```sh
+npm run devServer
+```
 
-## Apresentação do problema
+## Exemplo de uso
 
-Seu objetivo é desenvolver um Simulador de Investimentos para calcular a rentabilidade dos investimentos. Deverá apresentar uma interface que possibilite ao investidor realizar uma simulação e comparação entre os investimentos CDB e Poupança e destacar o investimento com maior rentabilidade. Para realizar a simulação, o investidor deverá fornecer seus dados de contato e responder algumas perguntas para que um resultado detalhado da simulação seja apresentado. Os dados do usuário e da simulação deverão ser armazenados em um banco de dados e o investidor após realizar a simulação poderá visualizar todas as simulações realizadas.
+### Rotas para criação/atualização de usuário
 
-**Os seguintes dados do investidor deverão ser informados**
+Nenhuma rota requer autorização.
 
-- Nome
-- E-mail
-- Telefone
+* **Rota de criação/atualização de usuários**
 
-**As seguintes perguntas deverão ser respondidas**
+Cria um candidato dentro do banco de dados com os dados informados e retorna um objeto com os dados criados.
+Caso ja haja um usuário com o e-mail informado, atualiza os outros dados e retorna um objeto com os dados criados.
+```sh
+POST {apiURL}/users
+```
+ Espera que seja enviado um HTTP request com o seguinte body:
 
-- Quanto você quer investir hoje?
-- Por quanto tempo você pretende deixar o seu dinheiro investido?
+     {
+	    "name":  "string", // required
+	    "email":  "string", // required
+	    "phone":  "string" // required
+    }
+    
+ Caso a criação tenha sucesso retorna no body da resposta:
 
-**Estes são os parâmetros de referência**
+     {
+    	"id": "string", 
+        "name":  "string",
+        "email":  "string",
+        "phone":  "string",
+        "createdAt": "date",
+        "updatedAt": "date",
+     }
 
-- Taxa do CDI
-- Taxa da Poupança
-- Rentabilidade de um CDB pós com x% do CDI
+### Rotas para entidade de simulações
 
-## O que iremos avaliar
+Nenhuma rota requer autorização.
 
-- Planejamento do projeto
-- Usabilidade
-- Criatividade
-- Código limpo e organização
-- Documentação de código
-- Documentação do projeto (readme)
-- Performance
+* **Rota de criação de simulação**
 
-## Não é necessário, mas seria ótimo
+Cria uma simulação na database.
 
-- React para o front-end
-- Node.js ou Python para o back-end
-- SQL Server ou PostgreSQL para banco de dados
-- Testes
-- Docker
-- CI/CD
-- Deploy da aplicação na nuvem (Azure, AWS, GCP)
+```sh
+POST {apiURL}/simulations
+```
+ Espera que seja enviado um HTTP request com o seguinte body:
 
-## Entregando o desafio
+     {
+	    "userId":  "string", // required
+	    "investmentTime":  "string", // required
+	    "initialDeposit":  "string",// required
+	    "monthlyDeposit":  "string" // required
+    }
+    
+ Caso a criação tenha sucesso retorna no body da resposta:
 
-- Faça um fork/clone deste repositório para sua conta (Github, Gitlab ou Bitbucket)
-- No README do projeto deve ter instruções de como executar e acessar o projeto
-- Envie o link do projeto para o e-mail tech@euqueroinvestir.com
+     {
+	    "id":  "string",
+        "userId":  "string",
+        "investmentTime":  "string",
+	    "initialDeposit":  "string",
+	    "monthlyDeposit":  "string",
+	    "createdAt": "date",
+        "updatedAt": "date"
+	 }
 
-## Dúvidas ou sugestões?
+* **Rota de leitura de simulações**
 
-Fique à vontade para perguntar qualquer dúvida que você tiver. Estamos sempre em busca de melhoria, por isso, caso tenha alguma sugestão fique a vontade pra compartilhar com a gente! Boa sorte.
+Lê todas as simulações salvas por um usuário.
 
+```sh
+GET {apiURL}/simulations/{id do usuário}
+```
+ Caso a haja simulações para o id de usuário fornecido retorna no body da resposta:
+
+     [
+	    {
+		    "id":  "string",
+	        "userId":  "string",
+	        "investmentTime":  "string",
+		    "initialDeposit":  "string",
+		    "monthlyDeposit":  "string",
+		    "createdAt": "date",
+	        "updatedAt": "date"
+		 },
+		 ...
+		 {
+		    "id":  "string",
+	        "userId":  "string",
+	        "investmentTime":  "string",
+		    "initialDeposit":  "string",
+		    "monthlyDeposit":  "string",
+		    "createdAt": "date",
+	        "updatedAt": "date"
+		 }
+	 ]
